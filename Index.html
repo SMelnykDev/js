@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+	<head>
+	</head>
+	<body>
+		<ul>
+			<li>
+				Code 'GENIECODE0' is applied to your cart, Total price is: 90$
+			</li>
+			<li>
+				Code 'GENIECODE1' is applied to your cart, Total price is: 80$
+			</li>
+			<li>
+				Code 'GENIECODE2' is applied to your cart, Total price is: 70$
+			</li>
+		</ul>
+		<h2>Total price is: 150$</h2>
+
+		<p>$1.99asd</p>
+		<p>$ 222000.00ads</p>
+		<p>$ 1,000.99asd</p>
+		<p>555.44 USDasd</p>
+
+		<ul id="codes">
+			<li>SAVE50 is not valid</li>
+			<li>1223ABC456 is not valid</li>
+			<li>JSKFSDKFJH is not valid</li>
+			<li>100OFF is not applied JANNU11 is applied</li>
+		</ul>
+		<h2>Not valid code</h2>
+		<div id="not_valid"></div>
+		<h2>Apllied code</h2>
+		<div id="applied"></div>
+		<script type="text/javascript" src="script.js"></script>
+		<script type="text/javascript">
+			let regexp = /[$][0-9]*[.][0-9]*[.][0-9]*/;
+			let arr_result = [];
+			let get_code_expr = /[A-Z]*[0-9]/;
+			let get_code_discount = /[0-9]*[$]/;
+			let get_total_price = /[0-9]*[$]/;
+			let data = document.getElementsByTagName('LI');
+			let total = parseInt(get_total_price.exec(document.getElementsByTagName('H2')[0].innerText));
+			let temp = {};
+			let best_discount = 0;
+			let temp_best = {};
+			for(let i = 0; i < data.length; ++i){
+				let temp_code = get_code_expr.exec(data[i].innerText);
+				let temp_discount = parseInt(get_code_discount.exec(data[i].innerText));
+				temp[temp_code] = (total - temp_discount);
+				if((total - temp_discount) > best_discount){
+					temp_best.bestCode = temp_code[0];
+					temp_best.bestCodeDiscount = (total - temp_discount);
+					best_discount = (total - temp_discount);
+				}
+			}
+			arr_result.push(temp);
+			arr_result.push(temp_best);
+			arr_result.push({originalPrice: total});
+			console.log(arr_result);
+
+			let my_test_arr = ['Bob', 'Bim', 'Tom', 'Jonh', 'Bill', 'Joi', 'Bred', 'Markus', 'Tompson', 'Tom'];
+
+			function lessThanFiveChars(arr){ 
+				let filtered_arr = arr.filter(function(elem, index, self){ 
+					return elem.length >= 5 
+				}); 
+				return filtered_arr
+			}
+
+			function removeDuplicateUsingFilter(arr){
+			    let unique_array = arr.filter(function(elem, index, self) {
+			        return index == self.indexOf(elem);
+			    });
+			    return unique_array
+			}
+
+			function addCodeToEveryElemOfArra(arr){ 
+				arr.forEach(function(item, index, temp_arr){
+					temp_arr[index] = item+"CODE"
+				}); 
+				return arr
+			}
+
+			console.log(lessThanFiveChars(my_test_arr));
+			console.log(removeDuplicateUsingFilter(my_test_arr));
+			console.log(addCodeToEveryElemOfArra(my_test_arr));
+
+			const reg_currency = /(\$|\$\s|)\d*(\.|\,\d*\.)(\d{2}\sUSD|\d{2})/;
+			let ps = document.getElementsByTagName('P');
+			for(let i = 0; i < ps.length; ++i){
+				document.write('<h2>'+reg_currency.exec(ps[i].innerText)[0]+'</h2>');
+			}
+		</script>
+	</body>
+</html>	
